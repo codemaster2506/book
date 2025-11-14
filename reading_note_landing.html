@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>리딩루틴 | 독서노트 습관 만들기</title>
+  <meta name="description" content="매일 10분, 독서노트로 생각을 쌓는 서비스. 템플릿과 알림으로 꾸준한 독서 기록 습관을 만들어 보세요." />
+  <style>
+    :root {
+      --bg: #f5f3ff;
+      --bg-soft: #ffffff;
+      --primary: #4f46e5;
+      --primary-soft: #eef2ff;
+      --primary-dark: #3730a3;
+      --accent: #f97316;
+      --text-main: #111827;
+      --text-soft: #6b7280;
+      --border-subtle: #e5e7eb;
+      --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.12);
+      --radius-xl: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top left, #e0e7ff 0, #f5f3ff 32%, #f9fafb 70%);
+      color: var(--text-main);
+      line-height: 1.5;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Layout */
+    .container {
+      width: 100%;
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      backdrop-filter: blur(18px);
+      background: linear-gradient(to bottom, rgba(248, 250, 252, 0.96), rgba(248, 250, 252, 0.86));
+      border-bottom: 1px solid rgba(209, 213, 219, 0.5);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.85rem 0;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-weight: 700;
+      font-size: 1.2rem;
+      letter-spacing: -0.03em;
+      color: var(--primary-dark);
+    }
+
+    .logo-mark {
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      background: conic-gradient(from 160deg, #4f46e5, #a855f7, #f97316, #4f46e5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #f9fafb;
+      font-size: 0.95rem;
+      box-shadow: 0 10px 25px rgba(79, 70, 229, 0.45);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      font-size: 0.92rem;
+      color: var(--text-soft);
+    }
+
+    .nav-links a {
+      position: relative;
+      padding-bottom: 0.1rem;
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(to right, #4f46e5, #f97316);
+      border-radius: 999px;
+      transition: width 0.18s ease-out;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .nav-cta {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font-size: 0.9rem;
+      padding: 0.55rem 1.2rem;
+      cursor: pointer;
+      transition: all 0.18s ease-out;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #4f46e5, #6366f1);
+      color: #f9fafb;
+      box-shadow: 0 12px 30px rgba(79, 70, 229, 0.6);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 16px 40px rgba(79, 70, 229, 0.75);
+      background: linear-gradient(135deg, #4338ca, #4f46e5);
+    }
+
+    .btn-ghost {
+      border-color: rgba(148, 163, 184, 0.7);
+      color: var(--text-soft);
+      background: rgba(255, 255, 255, 0.7);
+    }
+
+    .btn-ghost:hover {
+      background: #ffffff;
+      color: var(--text-main);
+      border-color: rgba(148, 163, 184, 1);
+    }
+
+    /* Hero */
+    .hero {
+      padding: 3.5rem 0 3rem;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.1fr);
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.15rem 0.6rem 0.15rem 0.3rem;
+      border-radius: 999px;
+      background: rgba(238, 242, 255, 0.9);
+      border: 1px solid rgba(199, 210, 254, 0.9);
+      font-size: 0.78rem;
+      color: #4f46e5;
+      margin-bottom: 1.1rem;
+    }
+
+    .eyebrow-badge {
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      background: #4f46e5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #eef2ff;
+      font-size: 0.8rem;
+    }
+
+    .hero-title {
+      font-size: clamp(2.1rem, 3vw, 2.8rem);
+      line-height: 1.18;
+      letter-spacing: -0.04em;
+      margin-bottom: 0.9rem;
+    }
+
+    .hero-highlight {
+      background: linear-gradient(120deg, rgba(250, 204, 21, 0.18), rgba(129, 140, 248, 0.25));
+      border-radius: 12px;
+      padding: 0.1rem 0.35rem;
+      box-decoration-break: clone;
+      -webkit-box-decoration-break: clone;
+    }
+
+    .hero-subtitle {
+      font-size: 0.98rem;
+      color: var(--text-soft);
+      max-width: 31rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .hero-note {
+      font-size: 0.8rem;
+      color: #9ca3af;
+    }
+
+    .hero-metrics {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.6rem;
+      margin-top: 1.8rem;
+      font-size: 0.78rem;
+      color: #6b7280;
+    }
+
+    .metric {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .metric strong {
+      font-size: 1.1rem;
+      color: var(--primary-dark);
+    }
+
+    .hero-card {
+      position: relative;
+      border-radius: 26px;
+      padding: 1.6rem;
+      background: radial-gradient(circle at top left, #eef2ff, #ffffff 45%, #fefce8 100%);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top right, rgba(56, 189, 248, 0.22), transparent 60%);
+      mix-blend-mode: soft-light;
+      opacity: 0.8;
+      pointer-events: none;
+    }
+
+    .hero-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-card-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .status-pill {
+      font-size: 0.7rem;
+      padding: 0.15rem 0.45rem;
+      border-radius: 999px;
+      background: rgba(16, 185, 129, 0.08);
+      color: #059669;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .hero-card-progress {
+      width: 80px;
+      height: 4px;
+      border-radius: 999px;
+      background: rgba(209, 213, 219, 0.9);
+      overflow: hidden;
+    }
+
+    .hero-card-progress span {
+      display: block;
+      height: 100%;
+      width: 74%;
+      background: linear-gradient(to right, #4f46e5, #f97316);
+    }
+
+    .hero-card-body {
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 18px;
+      padding: 1rem;
+      border: 1px solid rgba(209, 213, 219, 0.7);
+      position: relative;
+      z-index: 1;
+    }
+
+    .calendar-row {
+      display: flex;
+      gap: 0.3rem;
+      margin-bottom: 0.8rem;
+      flex-wrap: wrap;
+    }
+
+    .day {
+      width: 22px;
+      height: 22px;
+      border-radius: 8px;
+      border: 1px dashed rgba(209, 213, 219, 0.9);
+      font-size: 0.68rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #9ca3af;
+      background: rgba(249, 250, 251, 0.9);
+    }
+
+    .day.filled {
+      border-style: solid;
+      background: #4f46e5;
+      color: #eef2ff;
+      border-color: transparent;
+      box-shadow: 0 8px 18px rgba(79, 70, 229, 0.55);
+    }
+
+    .day.streak {
+      background: #f97316;
+      border-color: #f59e0b;
+      color: #fffbeb;
+    }
+
+    .note-snippet {
+      margin-top: 0.2rem;
+      padding: 0.7rem 0.8rem;
+      border-radius: 12px;
+      background: #f9fafb;
+      border: 1px dashed rgba(209, 213, 219, 0.9);
+      font-size: 0.78rem;
+      color: #4b5563;
+    }
+
+    .note-snippet strong {
+      display: inline-block;
+      font-size: 0.75rem;
+      color: #6b21a8;
+      margin-bottom: 0.1rem;
+    }
+
+    .hero-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      color: #6b7280;
+      margin-top: 1rem;
+    }
+
+    .hero-card-footer span {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .pill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+    }
+
+    .pill {
+      padding: 0.15rem 0.55rem;
+      border-radius: 999px;
+      background: rgba(238, 242, 255, 0.9);
+      border: 1px solid rgba(199, 210, 254, 0.9);
+      font-size: 0.7rem;
+      color: #4f46e5;
+    }
+
+    /* Sections */
+    section {
+      padding: 3.5rem 0;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 2.3rem;
+    }
+
+    .section-eyebrow {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: #a855f7;
+      margin-bottom: 0.4rem;
+    }
+
+    .section-title {
+      font-size: 1.6rem;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.3rem;
+    }
+
+    .section-subtitle {
+      font-size: 0.9rem;
+      color: var(--text-soft);
+      max-width: 28rem;
+      margin: 0 auto;
+    }
+
+    /* Features */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.6rem;
+    }
+
+    .feature-card {
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: var(--radius-xl);
+      padding: 1.4rem 1.3rem;
+      border: 1px solid rgba(209, 213, 219, 0.9);
+      box-shadow: 0 10px 26px rgba(15, 23, 42, 0.04);
+    }
+
+    .feature-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      background: #eef2ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      margin-bottom: 0.7rem;
+    }
+
+    .feature-title {
+      font-size: 0.98rem;
+      font-weight: 600;
+      margin-bottom: 0.35rem;
+    }
+
+    .feature-desc {
+      font-size: 0.85rem;
+      color: var(--text-soft);
+      margin-bottom: 0.7rem;
+    }
+
+    .feature-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+      font-size: 0.7rem;
+      color: #4b5563;
+    }
+
+    .feature-badges span {
+      padding: 0.1rem 0.5rem;
+      border-radius: 999px;
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+    }
+
+    /* How it works */
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.4rem;
+    }
+
+    .step-card {
+      background: #111827;
+      color: #e5e7eb;
+      border-radius: 20px;
+      padding: 1.3rem 1.2rem;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .step-card::after {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background: radial-gradient(circle at top right, rgba(79, 70, 229, 0.5), transparent 55%),
+                  radial-gradient(circle at bottom left, rgba(248, 113, 113, 0.4), transparent 55%);
+      opacity: 0.9;
+      mix-blend-mode: soft-light;
+      pointer-events: none;
+    }
+
+    .step-label {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: #a5b4fc;
+      margin-bottom: 0.4rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .step-title {
+      font-size: 1.02rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .step-desc {
+      font-size: 0.86rem;
+      color: #d1d5db;
+      margin-bottom: 0.7rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .step-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      font-size: 0.72rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .step-chips span {
+      padding: 0.12rem 0.5rem;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(148, 163, 184, 0.7);
+    }
+
+    /* Form section */
+    .cta-section {
+      background: radial-gradient(circle at top, #eef2ff, #f9fafb 45%, #fefce8 100%);
+      border-top: 1px solid rgba(209, 213, 219, 0.7);
+      border-bottom: 1px solid rgba(209, 213, 219, 0.7);
+    }
+
+    .cta-inner {
+      max-width: 720px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.96);
+      border-radius: 24px;
+      padding: 1.8rem 1.6rem;
+      border: 1px solid rgba(209, 213, 219, 0.85);
+      box-shadow: 0 18px 40px rgba(148, 163, 184, 0.35);
+    }
+
+    .cta-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 1.2rem;
+      align-items: center;
+      margin-bottom: 1.4rem;
+    }
+
+    .cta-text h2 {
+      font-size: 1.3rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .cta-text p {
+      font-size: 0.88rem;
+      color: var(--text-soft);
+    }
+
+    .cta-badge {
+      font-size: 0.74rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      background: rgba(16, 185, 129, 0.1);
+      color: #059669;
+      border: 1px solid rgba(52, 211, 153, 0.9);
+      white-space: nowrap;
+    }
+
+    .cta-form {
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    label {
+      font-size: 0.78rem;
+      color: #6b7280;
+    }
+
+    .input-field {
+      border-radius: 999px;
+      border: 1px solid rgba(209, 213, 219, 0.9);
+      padding: 0.6rem 0.9rem;
+      font-size: 0.9rem;
+      outline: none;
+      background: #f9fafb;
+      transition: all 0.16s ease-out;
+    }
+
+    .input-field:focus {
+      border-color: #4f46e5;
+      box-shadow: 0 0 0 1px rgba(79, 70, 229, 0.25);
+      background: #ffffff;
+    }
+
+    .input-help {
+      font-size: 0.7rem;
+      color: #9ca3af;
+    }
+
+    /* Testimonial */
+    .testimonial-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 1.7rem;
+      align-items: center;
+    }
+
+    .testimonial-card {
+      background: #0f172a;
+      color: #e5e7eb;
+      border-radius: 20px;
+      padding: 1.4rem 1.3rem;
+      border: 1px solid rgba(51, 65, 85, 0.9);
+      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.8);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .testimonial-card::before {
+      content: "";
+      position: absolute;
+      inset: -30%;
+      background: radial-gradient(circle at top left, rgba(59, 130, 246, 0.65), transparent 55%),
+                  radial-gradient(circle at bottom right, rgba(244, 114, 182, 0.55), transparent 60%);
+      mix-blend-mode: soft-light;
+      opacity: 0.85;
+      pointer-events: none;
+    }
+
+    .testimonial-body {
+      position: relative;
+      z-index: 1;
+      font-size: 0.92rem;
+    }
+
+    .testimonial-body p {
+      margin-bottom: 0.9rem;
+    }
+
+    .testimonial-body p span.highlight {
+      color: #fbbf24;
+    }
+
+    .testimonial-footer {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      color: #cbd5f5;
+    }
+
+    .testimonial-user {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top left, #4f46e5, #22c55e);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .rating {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.2rem;
+      font-size: 0.78rem;
+    }
+
+    .rating span.stars {
+      color: #facc15;
+      letter-spacing: 0.1em;
+    }
+
+    /* FAQ */
+    .faq-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.3rem;
+    }
+
+    .faq-item {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 16px;
+      padding: 0.9rem 1rem;
+      border: 1px solid rgba(209, 213, 219, 0.9);
+    }
+
+    .faq-q {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+    }
+
+    .faq-a {
+      font-size: 0.82rem;
+      color: var(--text-soft);
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid rgba(209, 213, 219, 0.8);
+      padding: 1.5rem 0 2rem;
+      font-size: 0.78rem;
+      color: #9ca3af;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a:hover {
+      color: #6b7280;
+    }
+
+    /* Responsive */
+    @media (max-width: 880px) {
+      .hero-grid,
+      .testimonial-grid,
+      .cta-form {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .hero-grid {
+        gap: 2.5rem;
+      }
+
+      .cta-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .cta-inner {
+        padding: 1.6rem 1.3rem;
+      }
+
+      .features-grid,
+      .steps-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .faq-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hero {
+        padding-top: 2.4rem;
+      }
+
+      .hero-card {
+        border-radius: 20px;
+      }
+
+      .section {
+        padding: 2.5rem 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="container nav">
+        <a href="#top" class="logo">
+          <span class="logo-mark">R</span>
+          <span>리딩루틴</span>
+        </a>
+        <nav class="nav-links">
+          <a href="#features">기능</a>
+          <a href="#how">사용 방법</a>
+          <a href="#testimonial">사용자 후기</a>
+          <a href="#faq">FAQ</a>
+        </nav>
+        <div class="nav-cta">
+          <button class="btn btn-ghost" onclick="scrollToSection('how')">데모 보기</button>
+          <button class="btn btn-primary" onclick="scrollToSection('cta')">무료로 시작하기</button>
+        </div>
+      </div>
+    </header>
+
+    <main id="top">
+      <!-- Hero -->
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="container hero-grid">
+          <div>
+            <div class="eyebrow">
+              <span class="eyebrow-badge">✍️</span>
+              <span>하루 10분, 독서노트로 생각을 쌓아요</span>
+            </div>
+            <h1 class="hero-title" id="hero-title">
+              <span class="hero-highlight">독서노트 습관</span>을
+              · 시작 · 유지 · 완성까지
+            </h1>
+            <p class="hero-subtitle">
+              오늘 읽은 문장, 떠오른 생각, 내 삶에 가져올 변화까지.
+              리딩루틴은 <strong>독서노트 한 장</strong>으로 하루를 정리하도록 돕는
+              초간단 기록 서비스입니다.
+            </p>
+            <div class="hero-actions">
+              <button class="btn btn-primary" onclick="scrollToSection('cta')">
+                지금 3일 체험 시작하기
+                <span aria-hidden="true">↗</span>
+              </button>
+              <button class="btn btn-ghost" onclick="scrollToSection('features')">
+                템플릿 먼저 구경하기
+              </button>
+            </div>
+            <p class="hero-note">회원가입 없이 이메일만으로 시작할 수 있어요.</p>
+
+            <div class="hero-metrics" aria-label="서비스 사용 통계">
+              <div class="metric">
+                <strong>83%</strong>
+                <span>7일 이상 독서노트 꾸준히 작성</span>
+              </div>
+              <div class="metric">
+                <strong>10분</strong>
+                <span>하루 평균 기록 시간</span>
+              </div>
+              <div class="metric">
+                <strong>3종 템플릿</strong>
+                <span>감상형 · 정리형 · 성장형</span>
+              </div>
+            </div>
+          </div>
+
+          <aside class="hero-card" aria-label="독서노트 예시 화면">
+            <div class="hero-card-header">
+              <div class="hero-card-title">
+                오늘의 독서 루틴
+                <span class="status-pill">연속 7일 작성 중</span>
+              </div>
+              <div class="hero-card-progress" aria-hidden="true">
+                <span></span>
+              </div>
+            </div>
+            <div class="hero-card-body">
+              <div class="calendar-row" aria-hidden="true">
+                <div class="day filled">월</div>
+                <div class="day filled">화</div>
+                <div class="day filled">수</div>
+                <div class="day filled">목</div>
+                <div class="day filled">금</div>
+                <div class="day filled streak">토</div>
+                <div class="day">일</div>
+              </div>
+              <div class="note-snippet">
+                <strong>【오늘의 책】
+                  <span>나는 읽고 쓰고 버린다</span>
+                </strong>
+                <div>
+                  “생각은 머릿속에 둘 때가 아니라
+                  <mark>꺼내어 보아야 할 때</mark>가 많다.”
+                </div>
+                <div style="margin-top: 0.35rem; font-size: 0.76rem;">
+                  오늘 문장을 내 삶에 적용한다면?
+                  <span style="color:#4f46e5; font-weight:500;">회의 후 5줄 회고</span>부터 바로 시작해 보기.
+                </div>
+              </div>
+              <div class="hero-card-footer">
+                <span>
+                  <span style="width:7px;height:7px;border-radius:999px;background:#22c55e;display:inline-block;"></span>
+                  오늘 기록할 독서노트가 준비됐어요.
+                </span>
+                <div class="pill-list">
+                  <span class="pill">#독서기록</span>
+                  <span class="pill">#오늘의문장</span>
+                  <span class="pill">#하루10분</span>
+                </div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- Features -->
+      <section id="features" aria-labelledby="features-title">
+        <div class="container">
+          <div class="section-header">
+            <p class="section-eyebrow">FEATURES</p>
+            <h2 class="section-title" id="features-title">독서노트에 필요한 것만 담았어요</h2>
+            <p class="section-subtitle">
+              복잡한 기능 대신, 책을 읽고 <strong>기록을 남기는 데 꼭 필요한 도구</strong>만 담았습니다.
+            </p>
+          </div>
+          <div class="features-grid">
+            <article class="feature-card">
+              <div class="feature-icon" aria-hidden="true">📕</div>
+              <h3 class="feature-title">3가지 독서노트 템플릿</h3>
+              <p class="feature-desc">
+                감상형, 정리형, 성장형 템플릿으로 그날의 독서 목적에 맞게 골라 기록할 수 있어요.
+              </p>
+              <div class="feature-badges">
+                <span>오늘의 문장</span>
+                <span>한 줄 요약</span>
+                <span>내 삶에 적용</span>
+              </div>
+            </article>
+
+            <article class="feature-card">
+              <div class="feature-icon" aria-hidden="true">
+                🕑
+              </div>
+              <h3 class="feature-title">루틴 알림 & 연속 기록</h3>
+              <p class="feature-desc">
+                원하는 시간에 “독서노트 작성” 알림을 보내 드려요. 놓쳐도 괜찮아요, 연속 기록이 다시 이어질 수 있게 도와드려요.
+              </p>
+              <div class="feature-badges">
+                <span>알림 시간 설정</span>
+                <span>연속 일수 표시</span>
+                <span>주간 리포트</span>
+              </div>
+            </article>
+
+            <article class="feature-card">
+              <div class="feature-icon" aria-hidden="true">
+                🗂️
+              </div>
+              <h3 class="feature-title">찾기 쉬운 내 독서 기록</h3>
+              <p class="feature-desc">
+                책 제목, 저자, 해시태그로 언제든지 지난 독서노트를 다시 꺼내 볼 수 있어요.
+              </p>
+              <div class="feature-badges">
+                <span>책별 묶음 보기</span>
+                <span>해시태그 필터</span>
+                <span>PDF 내보내기(예정)</span>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- How it works -->
+      <section id="how" aria-labelledby="how-title">
+        <div class="container">
+          <div class="section-header">
+            <p class="section-eyebrow">HOW IT WORKS</p>
+            <h2 class="section-title" id="how-title">하루 10분만 투자하세요</h2>
+            <p class="section-subtitle">
+              독서량이 아니라 <strong>생각의 깊이</strong>에 집중할 수 있도록, 단 3단계로 흐름을 설계했습니다.
+            </p>
+          </div>
+          <div class="steps-grid">
+            <article class="step-card">
+              <h3 class="step-label">STEP 1</h3>
+              <p class="step-title">책 & 템플릿 선택</p>
+              <p class="step-desc">
+                오늘 읽은 책을 선택하고, “감상형 / 정리형 / 성장형” 중 하나의 템플릿을 고릅니다. 이미 읽은 책이라면 기존 노트에 이어서 작성할 수 있어요.
+              </p>
+              <div class="step-chips">
+                <span>책 검색/직접 입력</span>
+                <span>템플릿 미리보기</span>
+              </div>
+            </article>
+
+            <article class="step-card">
+              <h3 class="step-label">STEP 2</h3>
+              <p class="step-title">오늘의 문장 & 생각 기록</p>
+              <p class="step-desc">
+                가장 인상 깊었던 문장을 옮겨 적고, 떠오른 생각과 질문을 짧게 남겨 보세요. 길게 쓰지 않아도 괜찮아요. “5줄만 써도 충분”하도록 설계되어 있습니다.
+              </p>
+              <div class="step-chips">
+                <span>오늘의 문장</span>
+                <span>느낌/배운 점</span>
+                <span>질문 남기기</span>
+              </div>
+            </article>
+
+            <article class="step-card">
+              <h3 class="step-label">STEP 3</h3>
+              <p class="step-title">내 삶에 한 줄 적용</p>
+              <p class="step-desc">
+                마지막으로 “내 일상에 어떻게 적용할지” 한 줄만 적어 봅니다. 내일 해야 할 작은 실천이 정리되면, 독서가 행동으로 이어집니다.
+              </p>
+              <div class="step-chips">
+                <span>내일 할 일 1가지</span>
+                <span>한 줄 다짐</span>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA / signup -->
+      <section id="cta" class="cta-section" aria-labelledby="cta-title">
+        <div class="container">
+          <div class="cta-inner">
+            <div class="cta-header">
+              <div class="cta-text">
+                <h2 id="cta-title">지금 바로 나만의 독서노트 공간 만들기</h2>
+                <p>이메일 하나로 <strong>3일 무료 체험</strong>을 시작해 보세요. 결제 정보는 필요하지 않습니다.</p>
+              </div>
+              <div class="cta-badge">3일 무료 · 언제든 해지 가능</div>
+            </div>
+
+            <form class="cta-form" onsubmit="handleFakeSubmit(event)">
+              <div class="input-group">
+                <label for="email">이메일 주소</label>
+                <input id="email" name="email" type="email" required class="input-field" placeholder="you@example.com" />
+                <p class="input-help">회원가입 링크를 이 메일로 보내 드려요.</p>
+              </div>
+              <div class="input-group">
+                <label for="goal">이번 달 독서 목표</label>
+                <input id="goal" name="goal" type="text" class="input-field" placeholder="예: 매일 10분씩 독서노트 쓰기" />
+                <button type="submit" class="btn btn-primary" style="margin-top:0.6rem;width:100%;">
+                  무료 체험 링크 받기
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- Testimonial -->
+      <section id="testimonial" aria-labelledby="testimonial-title">
+        <div class="container testimonial-grid">
+          <div>
+            <div class="section-header" style="text-align:left; margin-bottom:1.5rem;">
+              <p class="section-eyebrow">STORY</p>
+              <h2 class="section-title" id="testimonial-title" style="margin-bottom:0.5rem;">
+                “책은 읽고, 생각은 쌓이고, 나는 조금씩 바뀌고 있어요.”
+              </h2>
+              <p class="section-subtitle" style="margin:0; text-align:left;">
+                실제 베타 테스터의 후기를 바탕으로 재구성한 이야기입니다.
+              </p>
+            </div>
+            <ul style="font-size:0.88rem; color:var(--text-soft); display:grid; gap:0.5rem; padding-left:1rem;">
+              <li>책을 읽은 날과 읽지 못한 날이 한눈에 보여서, ‘그래도 다시 시작해 보자’라는 마음이 생겨요.</li>
+              <li>‘오늘의 문장’과 ‘내 삶에 적용’ 칸이 있어서, 그냥 좋은 말로 끝나지 않고 행동으로 옮기게 됩니다.</li>
+              <li>회사 일로 정신없어도 잠들기 전 10분, 독서노트 한 장 쓰는 시간이 제일 차분한 시간이 됐어요.</li>
+            </ul>
+          </div>
+          <aside class="testimonial-card" aria-label="사용자 후기 카드">
+            <div class="testimonial-body">
+              <p>
+                퇴근 후에 책을 읽어도, 다음 날이면 대부분 잊어버리곤 했어요.
+                그런데 리딩루틴으로 <span class="highlight">하루 한 장 독서노트</span>를 쓰기 시작한 뒤로는,
+                책에서 건진 문장들이 제 말과 행동에 조금씩 스며드는 게 느껴져요.
+              </p>
+              <p>
+                무엇보다도 <span class="highlight">‘완벽하게 쓰지 않아도 된다’</span>는 게 제일 좋아요.
+                틀리게 적어도, 두 줄만 적어도, 일단 오늘의 나와 마주했다는 느낌이 들어요.
+              </p>
+            </div>
+            <div class="testimonial-footer">
+              <div class="testimonial-user">
+                <div class="avatar" aria-hidden="true">J</div>
+                <div>
+                  <div>30대 직장인, J님</div>
+                  <div style="color:#9ca3af; font-size:0.76rem;">연속 21일 독서노트 작성 중</div>
+                </div>
+              </div>
+              <div class="rating">
+                <span class="stars" aria-hidden="true">★★★★★</span>
+                <span>루틴 만족도 4.9 / 5.0</span>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section id="faq" aria-labelledby="faq-title">
+        <div class="container">
+          <div class="section-header">
+            <p class="section-eyebrow">FAQ</p>
+            <h2 class="section-title" id="faq-title">자주 묻는 질문</h2>
+            <p class="section-subtitle">서비스를 시작하기 전에 궁금해하실 내용을 미리 모았습니다.</p>
+          </div>
+
+          <div class="faq-grid">
+            <article class="faq-item">
+              <h3 class="faq-q">꼭 매일 책을 읽어야 하나요?</h3>
+              <p class="faq-a">
+                아니요. 책을 읽지 못한 날에는 ‘생각 노트’ 템플릿으로 오늘 하루를 정리하셔도 됩니다.
+                중요한 것은 ‘매일 10분 나를 돌아보는 습관’이에요.
+              </p>
+            </article>
+
+            <article class="faq-item">
+              <h3 class="faq-q">모바일에서도 사용할 수 있나요?</h3>
+              <p class="faq-a">
+                네, 모바일 브라우저에 최적화되어 있어 출퇴근길이나 자기 전에도 편하게 작성하실 수 있습니다.
+              </p>
+            </article>
+
+            <article class="faq-item">
+              <h3 class="faq-q">작성한 내용은 안전하게 보관되나요?</h3>
+              <p class="faq-a">
+                모든 독서노트는 암호화된 통신으로 전송되며, 서비스 운영에 꼭 필요한 최소한의 정보만을 저장합니다.
+              </p>
+            </article>
+
+            <article class="faq-item">
+              <h3 class="faq-q">무료 체험이 끝나면 자동 결제되나요?</h3>
+              <p class="faq-a">
+                현재는 누구나 무료로 사용할 수 있는 베타 서비스입니다. 유료 전환 시 충분히 사전 안내를 드릴 예정입니다.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container footer-inner">
+        <div>
+          © <span id="year"></span> 리딩루틴. All rights reserved.
+        </div>
+        <div class="footer-links">
+          <a href="#top">맨 위로</a>
+          <a href="#features">
+            기능 다시 보기
+          </a>
+          <a href="#cta">무료 체험 시작</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    function scrollToSection(id) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      window.scrollTo({
+        top: el.offsetTop - 72,
+        behavior: 'smooth',
+      });
+    }
+
+    function handleFakeSubmit(event) {
+      event.preventDefault();
+      const emailInput = document.getElementById('email');
+      const goalInput = document.getElementById('goal');
+      const email = emailInput.value.trim();
+
+      if (!email) {
+        alert('이메일을 입력해 주세요.');
+        return;
+      }
+
+      alert('감사합니다! 입력하신 이메일로 독서노트 체험 링크를 보내 드렸다고 가정해 볼게요 :)');
+      goalInput.value = '';
+    }
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
